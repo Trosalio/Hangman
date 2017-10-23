@@ -1,6 +1,6 @@
 package main.client.controllers;
 
-import main.client.models.ClientManger;
+import main.client.models.ClientConnection;
 
 /**
  * Project Name: HangmanClient
@@ -8,12 +8,12 @@ import main.client.models.ClientManger;
 
 public class MainController {
 
-    private ClientManger manager;
+    private ClientConnection clientConnection;
 
     public void setUpContent() {
     }
 
-    public void setManager(ClientManger manager) {
-        this.manager = manager;
+    public void setConnection(ClientConnection clientConnection) {
+        this.clientConnection = clientConnection;
     }
 }
