@@ -1,4 +1,4 @@
-package main;
+package main.server;
 
 import main.server.models.ServerRunnable;
 import main.server.models.persistents.DBManager;

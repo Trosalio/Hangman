@@ -6,7 +6,7 @@ import main.client.models.ClientConnection;
  * Project Name: HangmanClient
  */
 
-public class MainController {
+public class ClientController {
 
     private ClientConnection clientConnection;
 
