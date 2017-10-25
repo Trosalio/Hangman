@@ -1,6 +1,5 @@
 package main;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
@@ -8,7 +7,6 @@ import main.client.controllers.MainController;
 import main.client.models.ClientConnection;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 /**
  * Project Name: Hangman
@@ -17,14 +15,14 @@ import java.io.Serializable;
 public class ClientMain extends TemplateMain {
 
     private ClientConnection clientConnection;
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         launch(args);
     }
 
     public ClientMain(){
-        clientConnection = createClient();
-        connection = clientConnection;
+        clientConnection = new ClientConnection("127.0.0.1", 1337);
     }
+
     @Override
     public void start(Stage primaryStage) {
         super.start(primaryStage);
@@ -46,13 +44,5 @@ public class ClientMain extends TemplateMain {
             System.out.println("FXML file "+ FXML_URL +"cannot be loaded");
         }
         return root;
-    }
-
-    private ClientConnection createClient(){
-        return new ClientConnection("localhost", 80085, (Serializable data) -> {
-            Platform.runLater(() -> {
-                System.out.println("Client said Hi!");
-            });
-        });
     }
 }
