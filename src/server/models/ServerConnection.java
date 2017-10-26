@@ -47,7 +47,7 @@ public class ServerConnection {
     public void disconnect() {
         try {
             serverStatus = false;
-            serverSocket.close();
+            if(!serverSocket.isClosed()) serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

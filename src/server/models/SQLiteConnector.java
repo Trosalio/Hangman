@@ -1,9 +1,6 @@
 package server.models;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -17,16 +14,51 @@ public class SQLiteConnector {
 
     public SQLiteConnector() {
         JDBC_DRIVER = "org.sqlite.JDBC";
-        JDBC_URL = initJDBC_URL();
+        JDBC_URL = "jdbc:sqlite:resources/server/library/Words.db";
     }
 
-    public void loadWordsFromDB(ArrayList<Word> words) {
+    public void loadWordsFromDB(ArrayList<String> words) {
+        PreparedStatement pStmt = null;
+        try {
+            conn = getDatabaseConnection();
+            String selectSQL = "SELECT * FROM WordTable";
+            pStmt = conn.prepareStatement(selectSQL);
+            ResultSet resultSet = pStmt.executeQuery();
+            while (resultSet.next()){
+                String strWord = resultSet.getString("WORD");
+                words.add(strWord);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try { pStmt.close(); } catch (SQLException e) {/* ignored */}
+            try { conn.close(); } catch (SQLException e) {/* ignored */}
+        }
     }
 
-    public void insertWordToDB(Word word) {
+    public void insertWordToDB(String word) {
+        final String insertSQL = String.format("INSERT OR REPLACE INTO WordTable (Word) VALUES('%s')", word);
+        updateDatabase(insertSQL);
     }
 
-    public void removeWordFromDB(int ID) {
+    public void removeWordFromDB(String word) {
+        final String deleteSQL = String.format("DELETE FROM WordTable WHERE WORD = '%s'", word);
+        updateDatabase(deleteSQL);
+    }
+
+    private void updateDatabase(String updateSQL) {
+        PreparedStatement pStmt = null;
+        try {
+            conn = getDatabaseConnection();
+            pStmt = conn.prepareStatement(updateSQL);
+            pStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try { pStmt.close(); } catch (SQLException e) {/* ignored */}
+            try { conn.close(); } catch (SQLException e) {/* ignored */}
+        }
     }
 
     private Connection getDatabaseConnection() {
@@ -38,12 +70,4 @@ public class SQLiteConnector {
         }
         return conn;
     }
-
-    private String initJDBC_URL() {
-        String jdbc_url = "jdbc:sqlite:";
-        File dbFile = new File("/server/resources/library/Words.db");
-        if (!dbFile.exists()) jdbc_url = jdbc_url + dbFile.getPath();
-        return jdbc_url;
-    }
-
 }

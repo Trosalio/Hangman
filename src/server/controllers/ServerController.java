@@ -1,10 +1,10 @@
 package server.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import server.models.ServerManager;
-import server.models.Word;
 
 /**
  * Project Name: HangmanClient
@@ -28,10 +28,10 @@ public class ServerController {
     private TextArea logTextArea;
 
     @FXML
-    private TableView<Word> wordListTable;
+    private TableView<String> wordListTable;
 
     @FXML
-    private TableColumn<Word, String> wordColumn;
+    private TableColumn<String, String> wordColumn;
 
     @FXML
     private Button deleteWordBtn;
@@ -46,16 +46,15 @@ public class ServerController {
     private void onAddWord() {
         String word = addWordTextF.getText().toUpperCase();
         if (word.matches("[A-Z]+")) {
-            if (deleteWordBtn.isDisable()) deleteWordBtn.setDisable(false);
-            logTextArea.appendText("Word: " + word + " added!\n");
-            serverManager.insertWord(word);
+            if(serverManager.isNotExisted(word)){
+                if (deleteWordBtn.isDisable()) deleteWordBtn.setDisable(false);
+                logTextArea.appendText("Word: " + word + " added!\n");
+                serverManager.insertWord(word);
+            } else {
+                showAlertBox("Already Exist Word", "This word is already in a word list");
+            }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid Input");
-            alert.setHeaderText(null);
-            alert.setContentText("Input must be alphabet characters! (a-z, A-Z)");
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.showAndWait();
+            showAlertBox("Invalid Input", "Input must be alphabet characters! (a-z, A-Z)");
         }
         addWordTextF.clear();
     }
@@ -70,8 +69,8 @@ public class ServerController {
     void onDeleteWord() {
         if (wordListTable.getSelectionModel().getSelectedItem() != null) {
             int removeIndex = wordListTable.getSelectionModel().getSelectedIndex();
-            Word word = serverManager.removeWord(removeIndex);
-            logTextArea.appendText("Word: " + word.getWord() + " removed!\n");
+            String word = serverManager.removeWord(removeIndex);
+            logTextArea.appendText("Word: " + word + " removed!\n");
             wordListTable.getSelectionModel().clearSelection();
             if (serverManager.getObsList().isEmpty()) {
                 deleteWordBtn.setDisable(true);
@@ -97,7 +96,7 @@ public class ServerController {
     public void setUpContent() {
         // Setup table view
         wordListTable.setItems(serverManager.getObsList());
-        wordColumn.setCellValueFactory(cell -> cell.getValue().wordProperty());
+        wordColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
         wordListTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> serverManager.setCurrentWord(newSelection));
         // Setup tab pane
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
@@ -111,5 +110,14 @@ public class ServerController {
     public void setServerManager(ServerManager serverManager) {
         this.serverManager = serverManager;
         this.serverManager.receiveLogControl(logTextArea);
+    }
+
+    private void showAlertBox(String title, String content){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.showAndWait();
     }
 }

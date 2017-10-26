@@ -26,7 +26,7 @@ public class ServerMain extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        final String FXML_URL = "/server/resources/fxml/ServerMainUI.fxml";
+        final String FXML_URL = "/server/fxml/ServerMainUI.fxml";
         try {
             FXMLLoader mainUILoader = new FXMLLoader(getClass().getResource(FXML_URL));
             Parent root = mainUILoader.load();
