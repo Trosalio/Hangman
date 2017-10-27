@@ -8,6 +8,9 @@ import server.models.ServerManager;
 
 /**
  * Project Name: HangmanClient
+ * Created by: Trosalio
+ * Name: Thanapong Supalak
+ * ID: 5810405029
  */
 
 public class ServerController {
@@ -47,9 +50,15 @@ public class ServerController {
         String word = addWordTextF.getText().toUpperCase();
         if (word.matches("[A-Z]+")) {
             if (serverManager.isNotExisted(word)) {
-                if (deleteWordBtn.isDisable()) deleteWordBtn.setDisable(false);
-                logTextArea.appendText("Word: " + word + " added!\n");
-                serverManager.insertWord(word);
+                if (word.length() <= 8) {
+                    if (deleteWordBtn.isDisable()) deleteWordBtn.setDisable(false);
+                    logTextArea.appendText("Word: " + word + " added!\n");
+                    serverManager.insertWord(word);
+                } else {
+                    String content = "This word is too long, which will make it difficult to guess\n" +
+                            "Suggestion: word should not contain more than 8 letters";
+                    showAlertBox("Too long", content);
+                }
             } else {
                 showAlertBox("Already Exist Word", "This word is already in a word list");
             }

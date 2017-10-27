@@ -11,6 +11,9 @@ import java.net.Socket;
 
 /**
  * Project Name: HangmanClient
+ * Created by: Trosalio
+ * Name: Thanapong Supalak
+ * ID: 5810405029
  */
 
 public class ClientConnection {
@@ -25,14 +28,15 @@ public class ClientConnection {
     }
 
     public String[] requestNewWordFromServer() {
-        String[] words = new String[2];
+        String[] words = new String[3];
         try (Socket clientSocket = new Socket(ip, port);
              BufferedReader serverInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
              PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream())) {
             clientOutput.println("Request new word");
             clientOutput.flush();
-            words[0] = serverInput.readLine();
-            words[1] = serverInput.readLine();
+            words[0] = serverInput.readLine(); // full word
+            words[1] = serverInput.readLine(); // truncated word
+            words[2] = serverInput.readLine(); // hint alphabet
             connected = true;
         } catch (IOException e) {
             //e.printStackTrace();
@@ -42,7 +46,7 @@ public class ClientConnection {
         return words;
     }
 
-    public boolean isConnected(){
+    public boolean isConnected() {
         return connected;
     }
 

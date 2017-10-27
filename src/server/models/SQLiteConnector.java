@@ -4,13 +4,15 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /**
- * Project Name: HangmanServer
+ * Project Name: HangmanClient
+ * Created by: Trosalio
+ * Name: Thanapong Supalak
+ * ID: 5810405029
  */
 
 public class SQLiteConnector {
 
     private String JDBC_DRIVER, JDBC_URL;
-    private Connection conn;
 
     public SQLiteConnector() {
         JDBC_DRIVER = "org.sqlite.JDBC";
@@ -18,22 +20,17 @@ public class SQLiteConnector {
     }
 
     public void loadWordsFromDB(ArrayList<String> words) {
-        PreparedStatement pStmt = null;
-        try {
-            conn = getDatabaseConnection();
-            String selectSQL = "SELECT * FROM WordTable";
-            pStmt = conn.prepareStatement(selectSQL);
+        String selectSQL = "SELECT * FROM WordTable";
+        try (Connection conn = getDatabaseConnection();
+             PreparedStatement pStmt = conn.prepareStatement(selectSQL)) {
             ResultSet resultSet = pStmt.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 String strWord = resultSet.getString("WORD");
                 words.add(strWord);
             }
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try { pStmt.close(); } catch (SQLException e) {/* ignored */}
-            try { conn.close(); } catch (SQLException e) {/* ignored */}
         }
     }
 
@@ -48,20 +45,16 @@ public class SQLiteConnector {
     }
 
     private void updateDatabase(String updateSQL) {
-        PreparedStatement pStmt = null;
-        try {
-            conn = getDatabaseConnection();
-            pStmt = conn.prepareStatement(updateSQL);
+        try (Connection conn = getDatabaseConnection();
+             PreparedStatement pStmt = conn.prepareStatement(updateSQL)) {
             pStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try { pStmt.close(); } catch (SQLException e) {/* ignored */}
-            try { conn.close(); } catch (SQLException e) {/* ignored */}
         }
     }
 
     private Connection getDatabaseConnection() {
+        Connection conn = null;
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(JDBC_URL);

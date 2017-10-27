@@ -5,14 +5,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
 /**
- * Project Name: Hangman
+ * Project Name: HangmanClient
+ * Created by: Trosalio
+ * Name: Thanapong Supalak
+ * ID: 5810405029
  */
+
 public class ClientManager {
 
     private ClientConnection clientConnection;
-    private StringBuilder answerWord, originalGuessingWord, currentGuessingWord;
-    private HBox wordHBox;
-    Label[] charactersLabel;
+    private String answerWord, originalGuessingWord, hintAlphabet;
+    private StringBuilder currentGuessingWord;
+    private HBox wordHBox = new HBox();
+    private Label[] charactersLabel;
 
     public void setClientConnection(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
@@ -32,28 +37,30 @@ public class ClientManager {
     }
 
     public void retryWord() {
-        currentGuessingWord = originalGuessingWord;
+        currentGuessingWord = new StringBuilder(originalGuessingWord);
         updateWordInHBox(currentGuessingWord);
+        wordHBox.getChildren().addAll(charactersLabel);
     }
 
     public boolean requestNewWord() {
         String[] receivedWords = clientConnection.requestNewWordFromServer();
         if (clientConnection.isConnected()) {
-            answerWord = new StringBuilder(receivedWords[0]);
-            originalGuessingWord = new StringBuilder(receivedWords[1]);
-            currentGuessingWord = originalGuessingWord;
+            answerWord = receivedWords[0];
+            originalGuessingWord = receivedWords[1];
+            hintAlphabet = receivedWords[2];
+            currentGuessingWord = new StringBuilder(originalGuessingWord);
             createWordInHBox(currentGuessingWord);
         }
         return clientConnection.isConnected();
     }
 
     private void createWordInHBox(StringBuilder word) {
-        System.out.println(word);
+        charactersLabel = new Label[word.length()];
         for (int i = 0; i < word.length(); i++) {
-            charactersLabel = new Label[word.length()];
             charactersLabel[i] = new Label(String.valueOf(word.charAt(i)));
             charactersLabel[i].setFont(new Font(36));
         }
+        wordHBox.getChildren().addAll(charactersLabel);
     }
 
     private void updateWordInHBox(StringBuilder word) {
@@ -63,10 +70,14 @@ public class ClientManager {
     }
 
     public boolean isAllMatch() {
-        return currentGuessingWord.equals(answerWord);
+        return currentGuessingWord.toString().equals(answerWord);
     }
 
     public void attachWordHBox(HBox hbox) {
         wordHBox = hbox;
+    }
+
+    public String getHintAlphabet() {
+        return hintAlphabet;
     }
 }

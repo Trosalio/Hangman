@@ -13,17 +13,18 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- * Project Name: HangmanServer
+ * Project Name: HangmanClient
+ * Created by: Trosalio
+ * Name: Thanapong Supalak
+ * ID: 5810405029
  */
 
 public class ServerConnection {
 
     private ServerSocket serverSocket;
-    private Socket socket;
     private boolean connectionStatus;
     private TextArea logTextArea;
     private int port;
-    private BufferedReader clientInput;
     private PrintWriter serverOutput;
     private Random random = new Random();
     private ArrayList<String> words;
@@ -59,7 +60,7 @@ public class ServerConnection {
         this.logTextArea = logTextArea;
     }
 
-    public String sendRandomWord() {
+    private String sendRandomWord() {
         int randomIndex = random.nextInt(words.size());
         return words.get(randomIndex);
     }
@@ -78,16 +79,15 @@ public class ServerConnection {
                     listenForServerRequest();
                 }
                 logTextArea.appendText("Close Connection\n");
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 System.err.println("Could not create listening socket / No connection from client");
             }
         }
 
         private void listenForServerRequest() throws IOException {
             logTextArea.appendText("Waiting for Connection on port " + serverSocket.getLocalPort() + "...\n");
-            socket = serverSocket.accept();
-            clientInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            Socket socket = serverSocket.accept();
+            BufferedReader clientInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             serverOutput = new PrintWriter(socket.getOutputStream());
             logTextArea.appendText("Connection received from: " + socket.getRemoteSocketAddress() + "\n");
 
@@ -95,7 +95,7 @@ public class ServerConnection {
             if (request != null) {
                 considerRequest(request);
             }
-            logTextArea.appendText("Close Connection\n");
+            logTextArea.appendText("Close Connection\n\n");
         }
 
         private void considerRequest(String request) {
@@ -103,29 +103,31 @@ public class ServerConnection {
                 logTextArea.appendText("Client has requested a new word");
                 logTextArea.appendText("Generating a word...\n");
                 String word = sendRandomWord();
-                String truncatedWord = truncateWord(word);
-                logTextArea.appendText(String.format("Sending Word: %s as '%s' to client\n", word, truncatedWord));
+                String[] strArr = truncateWord(word);
+                String truncatedWord = strArr[0];
+                String hintAlphabet = strArr[1];
+                logTextArea.appendText(String.format("Sending Word '%s' as '%s' to client\n", word, truncatedWord));
                 serverOutput.println(word);
                 serverOutput.println(truncatedWord);
+                serverOutput.println(hintAlphabet);
                 serverOutput.flush();
-            } else if (request.equals("Disconnect")) {
-                logTextArea.appendText("Client has disconnected from server\n");
-                logTextArea.appendText("Closing the current socket...\n");
-                disconnect();
             }
         }
 
-        private String truncateWord(String word) {
-            int initAlphabetPosition = random.nextInt(word.length());
-            char initAlphabet = word.charAt(initAlphabetPosition);
+        private String[] truncateWord(String word) {
+            String[] strArr = new String[2];
+            int hintAlphabetPosition = random.nextInt(word.length());
+            char hintAlphabet = word.charAt(hintAlphabetPosition);
             String s = String.join("", Collections.nCopies(word.length(), "_"));
             StringBuilder truncatedWord = new StringBuilder(s);
             for (int i = 0; i < word.length(); i++) {
-                if (word.charAt(i) == initAlphabet) {
-                    truncatedWord.replace(i, i + 1, String.valueOf(initAlphabet));
+                if (word.charAt(i) == hintAlphabet) {
+                    truncatedWord.replace(i, i + 1, String.valueOf(hintAlphabet));
                 }
             }
-            return truncatedWord.toString();
+            strArr[0] = truncatedWord.toString();
+            strArr[1] = String.valueOf(hintAlphabet);
+            return strArr;
         }
     }
 }

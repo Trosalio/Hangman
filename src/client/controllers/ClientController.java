@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 
 /**
  * Project Name: HangmanClient
+ * Created by: Trosalio
+ * Name: Thanapong Supalak
+ * ID: 5810405029
  */
 
 public class ClientController {
@@ -44,7 +47,9 @@ public class ClientController {
 
     @FXML
     private void onNewWordRequest() {
-        if(clientManager.requestNewWord()){
+        wordHBox.getChildren().clear();
+        if (clientManager.requestNewWord()) {
+            enableAnyAlphabetButtonButOne(clientManager.getHintAlphabet());
             restartGame();
         }
     }
@@ -57,7 +62,9 @@ public class ClientController {
 
     @FXML
     private void onTryAgain() {
+        wordHBox.getChildren().clear();
         clientManager.retryWord();
+        enableAnyAlphabetButtonButOne(clientManager.getHintAlphabet());
         restartGame();
     }
 
@@ -66,7 +73,7 @@ public class ClientController {
         String guessingAlphabet = button.getText();
         button.setDisable(true);
         if (clientManager.guessResult(guessingAlphabet)) {
-            if (clientManager.isAllMatch()){
+            if (clientManager.isAllMatch()) {
                 alphabetGrid.setDisable(true);
                 winLabel.setVisible(true);
                 tryAgainBtn.setDisable(true);
@@ -100,10 +107,15 @@ public class ClientController {
         clientManager.attachWordHBox(wordHBox);
     }
 
-    private void enableAllAlphabetButtons() {
-        for (Button button : alphabetsButtons) {
-            button.setDisable(false);
+    private void enableAnyAlphabetButtonButOne(String hintAlphabet) {
+        int hintIndex = -1;
+        for (int i = 0; i < alphabetsButtons.length; i++) {
+            System.out.print("Button: " + alphabetsButtons[i].getText());
+            System.out.println(" hint: " + hintAlphabet);
+            if (alphabetsButtons[i].getText().equals(hintAlphabet)) hintIndex = i;
+            alphabetsButtons[i].setDisable(false);
         }
+        alphabetsButtons[hintIndex].setDisable(true);
         alphabetGrid.setDisable(false);
     }
 
@@ -115,10 +127,9 @@ public class ClientController {
     }
 
     private void restartGame() {
-        enableAllAlphabetButtons();
         hideHangee();
+        tryAgainBtn.setDisable(false);
         winLabel.setVisible(false);
         gameOverLebel.setVisible(false);
-        tryAgainBtn.setDisable(false);
     }
 }

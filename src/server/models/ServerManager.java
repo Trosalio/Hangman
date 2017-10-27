@@ -8,8 +8,12 @@ import javafx.scene.control.TextArea;
 import java.util.ArrayList;
 
 /**
- * Project Name: Hangman
+ * Project Name: HangmanClient
+ * Created by: Trosalio
+ * Name: Thanapong Supalak
+ * ID: 5810405029
  */
+
 public class ServerManager {
 
     private SQLiteConnector sqLiteConnector;
