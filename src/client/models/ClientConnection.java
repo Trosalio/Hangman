@@ -1,8 +1,12 @@
 package client.models;
 
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -13,27 +17,48 @@ public class ClientConnection {
 
     private String ip;
     private int port;
-    private Socket clientSocket;
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private boolean connected = false;
 
     public ClientConnection(String ip, int port) {
         this.ip = ip;
         this.port = port;
-        createSocket();
     }
 
-    private void createSocket(){
-        try (Socket socket = new Socket(ip, port);
-             InputStream in = socket.getInputStream();
-             OutputStream out = socket.getOutputStream()){
-            clientSocket = socket;
-            inputStream = in;
-            outputStream = out;
-            clientSocket.setTcpNoDelay(true);
+    public String[] requestNewWordFromServer() {
+        String[] words = new String[2];
+        try (Socket clientSocket = new Socket(ip, port);
+             BufferedReader serverInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+             PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream())) {
+            clientOutput.println("Request new word");
+            clientOutput.flush();
+            words[0] = serverInput.readLine();
+            words[1] = serverInput.readLine();
+            connected = true;
         } catch (IOException e) {
             //e.printStackTrace();
-            System.err.println("Cannot find port: " + port + " On this IP: " + ip);
+            displayCannotFindServer();
+            connected = false;
         }
+        return words;
+    }
+
+    public boolean isConnected(){
+        return connected;
+    }
+
+    private void displayCannotFindServer() {
+        String s = String.format("Cannot find port: %d On this IP: %s%n", port, ip);
+        s += "Suggestion: Please try to open Server.jar and establish a connection first";
+        showAlertBox(s);
+    }
+
+
+    private void showAlertBox(String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Port not found");
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.showAndWait();
     }
 }

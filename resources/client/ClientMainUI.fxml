@@ -15,75 +15,48 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.ClientController">
    <bottom>
       <VBox spacing="20.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </BorderPane.margin>
          <GridPane fx:id="alphabetGrid">
             <columnConstraints>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
-            <Button mnemonicParsing="false" text="A"/>
-            <Button mnemonicParsing="false" text="B" GridPane.columnIndex="1"/>
-            <Button mnemonicParsing="false" text="C" GridPane.columnIndex="2"/>
-            <Button mnemonicParsing="false" text="D" GridPane.columnIndex="3"/>
-            <Button mnemonicParsing="false" text="E" GridPane.columnIndex="4"/>
-            <Button mnemonicParsing="false" text="F" GridPane.columnIndex="5"/>
-            <Button mnemonicParsing="false" text="G" GridPane.columnIndex="6"/>
-            <Button mnemonicParsing="false" text="H" GridPane.columnIndex="7"/>
-            <Button mnemonicParsing="false" text="I" GridPane.columnIndex="8"/>
-            <Button mnemonicParsing="false" text="J" GridPane.columnIndex="9"/>
-            <Button mnemonicParsing="false" text="K" GridPane.columnIndex="10"/>
-            <Button mnemonicParsing="false" text="L" GridPane.columnIndex="11"/>
-            <Button mnemonicParsing="false" text="M" GridPane.columnIndex="12"/>
-            <Button mnemonicParsing="false" text="Z" GridPane.columnIndex="12" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="Y" GridPane.columnIndex="11" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="X" GridPane.columnIndex="10" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="W" GridPane.columnIndex="9" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="V" GridPane.columnIndex="8" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="U" GridPane.columnIndex="7" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="N" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="O" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="P" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="Q" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="R" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="S" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
-            <Button mnemonicParsing="false" text="T" GridPane.columnIndex="6" GridPane.rowIndex="1"/>
          </GridPane>
          <HBox spacing="10.0">
             <Button fx:id="newWordBtn" mnemonicParsing="false" onAction="#onNewWordRequest" text="New Word">
                <font>
-                  <Font size="14.0"/>
+                  <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="tryAgainBtn" mnemonicParsing="false" onAction="#onTryAgain" text="Try Again">
+            <Button fx:id="tryAgainBtn" disable="true" mnemonicParsing="false" onAction="#onTryAgain" text="Try Again">
                <font>
-                  <Font size="14.0"/>
+                  <Font size="14.0" />
                </font>
             </Button>
-            <Pane HBox.hgrow="ALWAYS"/>
+            <Pane HBox.hgrow="ALWAYS" />
             <Button fx:id="quitBtn" mnemonicParsing="false" onAction="#onQuit" text="Quit">
                <font>
-                  <Font size="14.0"/>
+                  <Font size="14.0" />
                </font>
             </Button>
          </HBox>
@@ -92,31 +65,28 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="10.0" left="20.0" right="20.0" top="20.0"/>
+            <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
          </BorderPane.margin>
-         <Circle fx:id="head" fill="WHITE" layoutX="382.0" layoutY="65.0" radius="20.0" stroke="BLACK"
-                 strokeType="INSIDE"/>
-         <Line fx:id="body" endY="50.0" layoutX="382.0" layoutY="86.0"/>
-         <Line fx:id="rightleg" endX="30.0" layoutX="379.0" layoutY="147.0" rotate="45.0"/>
-         <Line fx:id="leftleg" endX="30.0" layoutX="356.0" layoutY="146.0" rotate="135.0"/>
-         <Line fx:id="leftarm" endX="35.0" layoutX="347.0" layoutY="105.0" rotate="160.0"/>
-         <Line fx:id="rightarm" endX="35.0" layoutX="382.0" layoutY="105.0" rotate="20.0"/>
-         <Line endX="125.0" layoutX="257.0" layoutY="15.0"/>
-         <Line endY="175.0" layoutX="256.0" layoutY="15.0"/>
-         <Line endY="30.0" layoutX="382.0" layoutY="15.0"/>
-         <Line endX="60.0" layoutX="226.0" layoutY="190.0"/>
-         <Line endX="43.0" layoutX="253.0" layoutY="26.0" rotate="330.0"/>
-         <HBox fx:id="wordHBox" alignment="CENTER" layoutX="14.0" layoutY="211.0" spacing="10.0"
-               style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0"
-               AnchorPane.rightAnchor="20.0"/>
+         <Circle fx:id="head" fill="WHITE" layoutX="382.0" layoutY="65.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+         <Line fx:id="body" endY="50.0" layoutX="382.0" layoutY="86.0" visible="false" />
+         <Line fx:id="rightleg" endX="30.0" layoutX="379.0" layoutY="147.0" rotate="45.0" visible="false" />
+         <Line fx:id="leftleg" endX="30.0" layoutX="356.0" layoutY="146.0" rotate="135.0" visible="false" />
+         <Line fx:id="leftarm" endX="35.0" layoutX="347.0" layoutY="105.0" rotate="160.0" visible="false" />
+         <Line fx:id="rightarm" endX="35.0" layoutX="382.0" layoutY="105.0" rotate="20.0" visible="false" />
+         <Line endX="125.0" layoutX="257.0" layoutY="15.0" />
+         <Line endY="175.0" layoutX="256.0" layoutY="15.0" />
+         <Line endY="30.0" layoutX="382.0" layoutY="15.0" />
+         <Line endX="60.0" layoutX="226.0" layoutY="190.0" />
+         <Line endX="43.0" layoutX="253.0" layoutY="26.0" rotate="330.0" />
+         <HBox fx:id="wordHBox" alignment="CENTER" layoutX="14.0" layoutY="211.0" spacing="10.0" style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
          <Label fx:id="gameOverLebel" layoutX="14.0" layoutY="36.0" text="Game Over!" visible="false">
             <font>
-               <Font size="40.0"/>
+               <Font size="40.0" />
             </font>
          </Label>
          <Label fx:id="winLabel" layoutX="39.0" layoutY="36.0" text="You Win!" visible="false">
             <font>
-               <Font size="40.0"/>
+               <Font size="40.0" />
             </font>
          </Label>
       </AnchorPane>

@@ -2,6 +2,7 @@ package client;
 
 import client.controllers.ClientController;
 import client.models.ClientConnection;
+import client.models.ClientManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -23,12 +24,14 @@ public class ClientMain extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        final String FXML_URL = "/client/resources/ClientMainUI.fxml";
+        final String FXML_URL = "/client/ClientMainUI.fxml";
         try {
             FXMLLoader mainUILoader = new FXMLLoader(getClass().getResource(FXML_URL));
             Parent root = mainUILoader.load();
             ClientController clientController = mainUILoader.getController();
-            clientController.setConnection(new ClientConnection("127.0.0.1", 1337));
+            ClientManager clientManager = new ClientManager();
+            clientManager.setClientConnection(new ClientConnection("127.0.0.1", 1337));
+            clientController.setManager(clientManager);
             clientController.setUpContent();
 
             primaryStage.setScene(new Scene(root));

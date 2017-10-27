@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Project Name: Hangman
@@ -15,19 +14,13 @@ public class ServerManager {
 
     private SQLiteConnector sqLiteConnector;
     private ServerConnection serverConnection;
-    private Random random = new Random();
     private ArrayList<String> words = new ArrayList<>();
     private final ObservableList<String> obsList = FXCollections.observableList(words);
     private final SimpleStringProperty currentWord = new SimpleStringProperty(null);
 
-    public String sendRandomWord() {
-        int randomIndex = random.nextInt(words.size());
-        return words.get(randomIndex);
-    }
-
-    public boolean isNotExisted(String newWord){
-        for(String word : words){
-            if(newWord.equals(word)){
+    public boolean isNotExisted(String newWord) {
+        for (String word : words) {
+            if (newWord.equals(word)) {
                 return false;
             }
         }
@@ -47,6 +40,7 @@ public class ServerManager {
 
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
+        passWordArray();
     }
 
     public void setSQLiteConnector(SQLiteConnector sqLiteConnector) {
@@ -70,7 +64,11 @@ public class ServerManager {
         this.currentWord.set(currentWord);
     }
 
-    public void receiveLogControl(TextArea logTextArea) {
+    public void passLogControl(TextArea logTextArea) {
         serverConnection.receiveLogControl(logTextArea);
+    }
+
+    private void passWordArray() {
+        serverConnection.receiveWordArray(words);
     }
 }

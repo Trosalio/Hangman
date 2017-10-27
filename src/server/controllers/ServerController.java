@@ -46,7 +46,7 @@ public class ServerController {
     private void onAddWord() {
         String word = addWordTextF.getText().toUpperCase();
         if (word.matches("[A-Z]+")) {
-            if(serverManager.isNotExisted(word)){
+            if (serverManager.isNotExisted(word)) {
                 if (deleteWordBtn.isDisable()) deleteWordBtn.setDisable(false);
                 logTextArea.appendText("Word: " + word + " added!\n");
                 serverManager.insertWord(word);
@@ -109,10 +109,10 @@ public class ServerController {
 
     public void setServerManager(ServerManager serverManager) {
         this.serverManager = serverManager;
-        this.serverManager.receiveLogControl(logTextArea);
+        this.serverManager.passLogControl(logTextArea);
     }
 
-    private void showAlertBox(String title, String content){
+    private void showAlertBox(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
