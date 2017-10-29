@@ -25,7 +25,7 @@ public class ClientController {
     @FXML
     private HBox wordHBox;
     @FXML
-    private Button tryAgainBtn, quitBtn;
+    private Button newWordBtn, quitBtn, tryAgainBtn;
     @FXML
     private Circle head;
     @FXML
@@ -38,6 +38,9 @@ public class ClientController {
     private Shape[] hangee;
     private int guessingChance;
 
+    /**
+     *
+     */
     @FXML
     public void initialize() {
         alphabetsButtons = new Button[alphabetGrid.getRowConstraints().size() * alphabetGrid.getColumnConstraints().size()];
@@ -45,6 +48,9 @@ public class ClientController {
         guessingChance = hangee.length;
     }
 
+    /**
+     *
+     */
     @FXML
     private void onNewWordRequest() {
         wordHBox.getChildren().clear();
@@ -54,12 +60,18 @@ public class ClientController {
         }
     }
 
+    /**
+     *
+     */
     @FXML
     private void onQuit() {
         Stage stage = (Stage) quitBtn.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     *
+     */
     @FXML
     private void onTryAgain() {
         wordHBox.getChildren().clear();
@@ -68,6 +80,10 @@ public class ClientController {
         restartGame();
     }
 
+    /**
+     *
+     * @param button
+     */
     private void onAlphabetButtonPressed(Button button) {
         System.out.println(button.getText());
         String guessingAlphabet = button.getText();
@@ -90,6 +106,9 @@ public class ClientController {
         }
     }
 
+    /**
+     *
+     */
     public void setUpContent() {
         for (int i = 0; i < alphabetsButtons.length; i++) {
             String alphabet = String.valueOf((char) ('A' + i));
@@ -102,11 +121,19 @@ public class ClientController {
         alphabetGrid.setDisable(true);
     }
 
+    /**
+     *
+     * @param clientManager
+     */
     public void setManager(ClientManager clientManager) {
         this.clientManager = clientManager;
         clientManager.attachWordHBox(wordHBox);
     }
 
+    /**
+     *
+     * @param hintAlphabet
+     */
     private void enableAnyAlphabetButtonButOne(String hintAlphabet) {
         int hintIndex = -1;
         for (int i = 0; i < alphabetsButtons.length; i++) {
@@ -119,6 +146,9 @@ public class ClientController {
         alphabetGrid.setDisable(false);
     }
 
+    /**
+     *
+     */
     private void hideHangee() {
         for (Shape bodyPart : hangee) {
             bodyPart.setVisible(false);
@@ -126,6 +156,9 @@ public class ClientController {
         guessingChance = hangee.length;
     }
 
+    /**
+     *
+     */
     private void restartGame() {
         hideHangee();
         tryAgainBtn.setDisable(false);

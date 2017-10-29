@@ -22,11 +22,20 @@ public class ClientConnection {
     private int port;
     private boolean connected = false;
 
+    /**
+     *
+     * @param ip
+     * @param port
+     */
     public ClientConnection(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }
 
+    /**
+     *
+     * @return
+     */
     public String[] requestNewWordFromServer() {
         String[] words = new String[3];
         try (Socket clientSocket = new Socket(ip, port);
@@ -46,17 +55,27 @@ public class ClientConnection {
         return words;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isConnected() {
         return connected;
     }
 
+    /**
+     *
+     */
     private void displayCannotFindServer() {
         String s = String.format("Cannot find port: %d On this IP: %s%n", port, ip);
         s += "Suggestion: Please try to open Server.jar and establish a connection first";
         showAlertBox(s);
     }
 
-
+    /**
+     *
+     * @param content
+     */
     private void showAlertBox(String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Port not found");

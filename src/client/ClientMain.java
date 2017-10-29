@@ -21,13 +21,21 @@ import java.io.IOException;
 
 public class ClientMain extends Application {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     *
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
-        final String FXML_URL = "/client/ClientMainUI.fxml";
+        final String FXML_URL = "/client/ClientUI.fxml";
         try {
             FXMLLoader mainUILoader = new FXMLLoader(getClass().getResource(FXML_URL));
             Parent root = mainUILoader.load();

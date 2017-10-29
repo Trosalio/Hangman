@@ -22,14 +22,24 @@ import java.io.IOException;
 
 public class ServerMain extends Application {
 
+    /**
+     * This method will call launch(args) which then call start(primaryStage)
+     *
+     * @param args
+     */
     public static void main(final String[] args) {
         launch(args);
     }
 
+    /**
+     * This method will import .fxml, initialize ServerManager, ServerConnection, SQLiteConnector, and display primary stage
+     *
+     * @param primaryStage a main stage/window for this program.
+     */
     @Override
     public void start(Stage primaryStage) {
 
-        final String FXML_URL = "/server/fxml/ServerMainUI.fxml";
+        final String FXML_URL = "/server/fxml/ServerUI.fxml";
         try {
             FXMLLoader mainUILoader = new FXMLLoader(getClass().getResource(FXML_URL));
             Parent root = mainUILoader.load();

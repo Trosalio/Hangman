@@ -19,10 +19,19 @@ public class ClientManager {
     private HBox wordHBox = new HBox();
     private Label[] charactersLabel;
 
+    /**
+     *
+     * @param clientConnection
+     */
     public void setClientConnection(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
     }
 
+    /**
+     *
+     * @param guessingAlphabet
+     * @return
+     */
     public boolean guessResult(String guessingAlphabet) {
         boolean result = false;
         char guessingChr = guessingAlphabet.charAt(0);
@@ -36,12 +45,19 @@ public class ClientManager {
         return result;
     }
 
+    /**
+     *
+     */
     public void retryWord() {
         currentGuessingWord = new StringBuilder(originalGuessingWord);
         updateWordInHBox(currentGuessingWord);
         wordHBox.getChildren().addAll(charactersLabel);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean requestNewWord() {
         String[] receivedWords = clientConnection.requestNewWordFromServer();
         if (clientConnection.isConnected()) {
@@ -54,6 +70,10 @@ public class ClientManager {
         return clientConnection.isConnected();
     }
 
+    /**
+     *
+     * @param word
+     */
     private void createWordInHBox(StringBuilder word) {
         charactersLabel = new Label[word.length()];
         for (int i = 0; i < word.length(); i++) {
@@ -63,20 +83,36 @@ public class ClientManager {
         wordHBox.getChildren().addAll(charactersLabel);
     }
 
+    /**
+     *
+     * @param word
+     */
     private void updateWordInHBox(StringBuilder word) {
         for (int i = 0; i < word.length(); i++) {
             charactersLabel[i].setText(String.valueOf(word.charAt(i)));
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isAllMatch() {
         return currentGuessingWord.toString().equals(answerWord);
     }
 
+    /**
+     *
+     * @param hbox
+     */
     public void attachWordHBox(HBox hbox) {
         wordHBox = hbox;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getHintAlphabet() {
         return hintAlphabet;
     }

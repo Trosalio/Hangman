@@ -22,10 +22,7 @@ public class ServerController {
     private Tab serverLogTab;
 
     @FXML
-    private Button clearLogBtn;
-
-    @FXML
-    private Button establishConnBtn;
+    private Button addWordBtn, clearLogBtn, deleteWordBtn, establishConnBtn;
 
     @FXML
     private TextArea logTextArea;
@@ -37,14 +34,19 @@ public class ServerController {
     private TableColumn<String, String> wordColumn;
 
     @FXML
-    private Button deleteWordBtn;
-
-    @FXML
     private TextField addWordTextF;
 
     private boolean isEstablished;
     private ServerManager serverManager;
 
+    /**
+     * When addWordBtn pressed, add a word input from addWordTextF::TextField into words:ArrayList<String> In server manager,
+     * and in database if available, in certain conditions:
+     * (1) Word must contains only character from A-Z, regardless whether it is a uppercase or lowercase.
+     * ->(2) Word's length must be less than or equal to 8 characters, for the sake of difficulty being solvable.
+     * ->(3) Word must not appear/exist in a words::ArrayList.
+     * If all condition are not met, display an error according to its error.
+     */
     @FXML
     private void onAddWord() {
         String word = addWordTextF.getText().toUpperCase();
@@ -68,12 +70,19 @@ public class ServerController {
         addWordTextF.clear();
     }
 
+    /**
+     * When clearLogBtn is pressed, clear a log and disale a clearLogBtn button
+     */
     @FXML
     private void onClearLog() {
         logTextArea.clear();
         clearLogBtn.setDisable(true);
     }
 
+    /**
+     * When deleteWordBtn is pressed, Delete a selected word from words::ArrayList<String> in server manager.
+     * Update a log in the process.
+     */
     @FXML
     void onDeleteWord() {
         if (wordListTable.getSelectionModel().getSelectedItem() != null) {
@@ -89,6 +98,10 @@ public class ServerController {
 
     }
 
+    /**
+     * When establishConnBtn is pressed. Either (1) establish a connection if not already, or (2) disconnect a connection.
+     * This method will also change the text and state in establishConnBtn
+     */
     @FXML
     private void onEstablishConnection() {
         if (!isEstablished) {
@@ -102,6 +115,9 @@ public class ServerController {
         }
     }
 
+    /**
+     * Setting up contents in ServerUI.fxml
+     */
     public void setUpContent() {
         // Setup table view
         wordListTable.setItems(serverManager.getObsList());
@@ -116,11 +132,23 @@ public class ServerController {
         logTextArea.textProperty().addListener(e -> clearLogBtn.setDisable(logTextArea.getText().trim().equals("")));
     }
 
+    /**
+     * This method is a setter to set a server manager into it. And then pass a log::TextArea to the it as well.
+     *
+     * @param serverManager A manager which is injected to this class.
+     */
     public void setServerManager(ServerManager serverManager) {
         this.serverManager = serverManager;
         this.serverManager.passLogControl(logTextArea);
     }
 
+    /**
+     * When called, this method will create an error alert box filled with Title and Content received from caller and display to user.
+     * The alert box will block out other action until get acknowledged.
+     *
+     * @param title   A title of the Alert box
+     * @param content A content of the Alert box
+     */
     private void showAlertBox(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
