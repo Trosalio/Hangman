@@ -3,7 +3,6 @@ package server.controllers;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
 import server.models.ServerManager;
 import share.ErrorAlertBox;
 

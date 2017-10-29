@@ -1,8 +1,5 @@
 package client.models;
 
-import javafx.scene.control.Alert;
-import javafx.stage.Modality;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
