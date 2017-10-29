@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import server.models.ServerManager;
+import share.ErrorAlertBox;
 
 /**
  * Project Name: HangmanClient
@@ -59,13 +60,13 @@ public class ServerController {
                 } else {
                     String content = "This word is too long, which will make it difficult to guess\n" +
                             "Suggestion: word should not contain more than 8 letters";
-                    showAlertBox("Too long", content);
+                    ErrorAlertBox.showAlertBox("Too long", content);
                 }
             } else {
-                showAlertBox("Already Exist Word", "This word is already in a word list");
+                ErrorAlertBox.showAlertBox("Already Exist Word", "This word is already in a word list");
             }
         } else {
-            showAlertBox("Invalid Input", "Input must be alphabet characters! (a-z, A-Z)");
+            ErrorAlertBox.showAlertBox("Invalid Input", "Input must be alphabet characters! (a-z, A-Z)");
         }
         addWordTextF.clear();
     }
@@ -141,21 +142,5 @@ public class ServerController {
     public void setServerManager(ServerManager serverManager) {
         this.serverManager = serverManager;
         this.serverManager.passLogControl(logTextArea);
-    }
-
-    /**
-     * When called, this method will create an error alert box filled with Title and Content received from caller and display to user.
-     * The alert box will block out other action until get acknowledged.
-     *
-     * @param title   A title of the Alert box
-     * @param content A content of the Alert box
-     */
-    private void showAlertBox(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.showAndWait();
     }
 }

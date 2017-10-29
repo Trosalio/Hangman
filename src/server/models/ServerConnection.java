@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import share.STATUS_CODE;
 
 /**
  * Project Name: HangmanClient
@@ -156,22 +157,32 @@ public class ServerConnection {
 
 
         /**
-         * If the sent message is "Request new word", server will generate and sent out a word which is random from Words.
+         * If the Status code is REQUEST_NEW_WORD, server will try generate a random word from list:
+         *  (1) if any word is found in word list, send RESPOND_NEW_WORD, and send out a word which is random from Words to client.
+         *  (2) if no word is found, send RESPOND_NO_WORD to client.
          * Update a log in the process.
          * @param request A requested string, a message, that is received from Client
          */
         private void considerRequest(String request) {
-            if (request.equals("Request new word")) {
+            if (request.equals(STATUS_CODE.REQUEST_NEW_WORD.toString())) {
                 logTextArea.appendText("Client has requested a new word\n");
                 logTextArea.appendText("Generating a word...\n");
-                String word = sendRandomWord();
-                String[] strArr = truncateWord(word);
-                String truncatedWord = strArr[0];
-                String hintAlphabet = strArr[1];
-                logTextArea.appendText(String.format("Sending Word '%s' as '%s' to client\n", word, truncatedWord));
-                serverOutput.println(word);
-                serverOutput.println(truncatedWord);
-                serverOutput.println(hintAlphabet);
+                if(words.isEmpty()){
+                    logTextArea.appendText("No word in the list\n");
+                    logTextArea.appendText("Sending \"NO word\" as a respond to client\n");
+                    serverOutput.println(STATUS_CODE.RESPOND_NO_WORD.toString());
+                } else {
+                    logTextArea.appendText("Found words\n");
+                    String word = sendRandomWord();
+                    String[] strArr = truncateWord(word);
+                    String truncatedWord = strArr[0];
+                    String hintAlphabet = strArr[1];
+                    logTextArea.appendText(String.format("Sending Word '%s' as '%s' to client\n", word, truncatedWord));
+                    serverOutput.println(STATUS_CODE.RESPOND_NEW_WORD.toString());
+                    serverOutput.println(word);
+                    serverOutput.println(truncatedWord);
+                    serverOutput.println(hintAlphabet);
+                }
                 serverOutput.flush();
             }
         }

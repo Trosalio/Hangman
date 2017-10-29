@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import share.ErrorAlertBox;
+import share.STATUS_CODE;
+
 /**
  * Project Name: HangmanClient
  * Created by: Trosalio
@@ -34,7 +37,9 @@ public class ClientConnection {
 
     /**
      * This method will try to create a socket to connect to the server.
-     * If connected, request a new word and receive an array of answers from server and set 'connected' to True.
+     * If connected, send a status code "REQUEST_NEW_WORD" to server, when receive a status code, do the following:
+     *  (1) if status code is "RESPOND_NEW_WORD", receive an array of answers from server and set 'connected' to True.
+     *  (2) if status code is "RESPOND_NO_WORD", displayNoWord() notifies user that word cannot be found from server.
      * If not, however, display a "Connect Find Server" to user and set 'connected' to False
      * @return An array of answers contain answer word, guessing word and hint alphabet
      */
@@ -43,12 +48,17 @@ public class ClientConnection {
         try (Socket clientSocket = new Socket(ip, port);
              BufferedReader serverInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
              PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream())) {
-            clientOutput.println("Request new word");
+            clientOutput.println(STATUS_CODE.REQUEST_NEW_WORD.toString());
             clientOutput.flush();
-            words[0] = serverInput.readLine(); // full word
-            words[1] = serverInput.readLine(); // truncated word
-            words[2] = serverInput.readLine(); // hint alphabet
-            connected = true;
+            String respondCode = serverInput.readLine();
+            if(respondCode.equals(STATUS_CODE.RESPOND_NEW_WORD.toString())){
+                words[0] = serverInput.readLine(); // full word
+                words[1] = serverInput.readLine(); // truncated word
+                words[2] = serverInput.readLine(); // hint alphabet
+                connected = true;
+            } else if (respondCode.equals(STATUS_CODE.RESPOND_NO_WORD.toString())){
+                displayNoWord();
+            }
         } catch (IOException e) {
             //e.printStackTrace();
             displayCannotFindServer();
@@ -66,16 +76,20 @@ public class ClientConnection {
     }
 
     /**
-     * Create an error alert box and display it the user, block any action until get acknowledged.
+     * State that there's no word in server to user, call displayAlertBox to show an alert box.
+     */
+    private void displayNoWord() {
+        String content = "There's no word in the server\n";
+        content += "Suggestion: Contact to the server user";
+        ErrorAlertBox.showAlertBox("No word found", content);
+    }
+
+    /**
+     * State that it cannot find the server to user, call displayAlertBox to show an alert box.
      */
     private void displayCannotFindServer() {
         String content = String.format("Cannot find port: %d On this IP: %s%n", port, ip);
         content += "Suggestion: Please try to open Server.jar and establish a connection first";
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Port not found");
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.showAndWait();
+        ErrorAlertBox.showAlertBox("Port not found", content);
     }
 }
