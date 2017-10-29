@@ -22,16 +22,18 @@ import java.io.IOException;
 public class ClientMain extends Application {
 
     /**
+     * This method will call launch(args) which then call start(primaryStage)
      *
-     * @param args
+     * @param args an argument received when calls a program
      */
     public static void main(String[] args) {
         launch(args);
     }
 
     /**
-     *
-     * @param primaryStage
+     * This method will import .fxml, initialize ClientConnection, ClientController, ClientManager and display primary stage
+     * IP is "127.0.0.1"(localhost) & Port number is 1337
+     * @param primaryStage a main stage/window for this program.
      */
     @Override
     public void start(Stage primaryStage) {

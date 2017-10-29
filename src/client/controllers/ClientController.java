@@ -34,22 +34,22 @@ public class ClientController {
     private Label gameOverLebel, winLabel;
 
     private ClientManager clientManager;
-    private Button[] alphabetsButtons;
+    private Button[] alphabetButtons;
     private Shape[] hangee;
     private int guessingChance;
 
     /**
-     *
+     * Initialize buttons and list.
      */
     @FXML
     public void initialize() {
-        alphabetsButtons = new Button[alphabetGrid.getRowConstraints().size() * alphabetGrid.getColumnConstraints().size()];
+        alphabetButtons = new Button[alphabetGrid.getRowConstraints().size() * alphabetGrid.getColumnConstraints().size()];
         hangee = new Shape[]{rightleg, leftleg, rightarm, leftarm, body, head};
         guessingChance = hangee.length;
     }
 
     /**
-     *
+     * When newWordBtn is pressed,  wipes labels in HBox, calls clientManager to request a new word from server, and enables buttons.
      */
     @FXML
     private void onNewWordRequest() {
@@ -61,7 +61,7 @@ public class ClientController {
     }
 
     /**
-     *
+     * When quitBtn is pressed, close and exit the program.
      */
     @FXML
     private void onQuit() {
@@ -70,7 +70,7 @@ public class ClientController {
     }
 
     /**
-     *
+     * When tryAgainBtn is pressed, wipes labels in HBox, calls clientManager to retry a game, and enables buttons.
      */
     @FXML
     private void onTryAgain() {
@@ -81,15 +81,16 @@ public class ClientController {
     }
 
     /**
-     *
-     * @param button
+     * When a button in alphabetButtons array is pressed, asks clientManager to guess the result according to the alphabet user has pressed,
+     * and disable that button.
+     * @param button A button that is pressed
      */
     private void onAlphabetButtonPressed(Button button) {
         System.out.println(button.getText());
         String guessingAlphabet = button.getText();
         button.setDisable(true);
         if (clientManager.guessResult(guessingAlphabet)) {
-            if (clientManager.isAllMatch()) {
+            if (clientManager.isAllMatched()) {
                 alphabetGrid.setDisable(true);
                 winLabel.setVisible(true);
                 tryAgainBtn.setDisable(true);
@@ -107,23 +108,24 @@ public class ClientController {
     }
 
     /**
-     *
+     * Setup a content in .fxml
      */
     public void setUpContent() {
-        for (int i = 0; i < alphabetsButtons.length; i++) {
+        for (int i = 0; i < alphabetButtons.length; i++) {
             String alphabet = String.valueOf((char) ('A' + i));
             Button alphabetButton = new Button(alphabet);
             alphabetButton.setOnAction(e -> onAlphabetButtonPressed(alphabetButton));
             alphabetButton.setFocusTraversable(false);
-            alphabetsButtons[i] = alphabetButton;
-            alphabetGrid.add(alphabetsButtons[i], i % alphabetGrid.getColumnConstraints().size(), i / alphabetGrid.getColumnConstraints().size());
+            alphabetButtons[i] = alphabetButton;
+            alphabetGrid.add(alphabetButtons[i], i % alphabetGrid.getColumnConstraints().size(), i / alphabetGrid.getColumnConstraints().size());
         }
         alphabetGrid.setDisable(true);
     }
 
     /**
-     *
-     * @param clientManager
+     * A setter method.
+     * Set a client manager and attach a HBox to it.
+     * @param clientManager A setter
      */
     public void setManager(ClientManager clientManager) {
         this.clientManager = clientManager;
@@ -131,23 +133,21 @@ public class ClientController {
     }
 
     /**
-     *
-     * @param hintAlphabet
+     * This method will set button which contains the hint alphabet will be disabled
+     * @param hintAlphabet A String that button which contains the hint alphabet will be disabled
      */
     private void enableAnyAlphabetButtonButOne(String hintAlphabet) {
         int hintIndex = -1;
-        for (int i = 0; i < alphabetsButtons.length; i++) {
-            System.out.print("Button: " + alphabetsButtons[i].getText());
-            System.out.println(" hint: " + hintAlphabet);
-            if (alphabetsButtons[i].getText().equals(hintAlphabet)) hintIndex = i;
-            alphabetsButtons[i].setDisable(false);
+        for (int i = 0; i < alphabetButtons.length; i++) {
+            if (alphabetButtons[i].getText().equals(hintAlphabet)) hintIndex = i;
+            alphabetButtons[i].setDisable(false);
         }
-        alphabetsButtons[hintIndex].setDisable(true);
+        alphabetButtons[hintIndex].setDisable(true);
         alphabetGrid.setDisable(false);
     }
 
     /**
-     *
+     * When called, hides shapes which is hangee
      */
     private void hideHangee() {
         for (Shape bodyPart : hangee) {
@@ -157,7 +157,8 @@ public class ClientController {
     }
 
     /**
-     *
+     * When called, calls hide hangee and enable tryAgainBtn
+     * and hide winLabel and gameOverLabel
      */
     private void restartGame() {
         hideHangee();

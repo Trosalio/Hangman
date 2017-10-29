@@ -23,9 +23,9 @@ public class ClientConnection {
     private boolean connected = false;
 
     /**
-     *
-     * @param ip
-     * @param port
+     * Construct and assign an IP and Port number to the class.
+     * @param ip String of IP
+     * @param port A Port number
      */
     public ClientConnection(String ip, int port) {
         this.ip = ip;
@@ -33,8 +33,10 @@ public class ClientConnection {
     }
 
     /**
-     *
-     * @return
+     * This method will try to create a socket to connect to the server.
+     * If connected, request a new word and receive an array of answers from server and set 'connected' to True.
+     * If not, however, display a "Connect Find Server" to user and set 'connected' to False
+     * @return An array of answers contain answer word, guessing word and hint alphabet
      */
     public String[] requestNewWordFromServer() {
         String[] words = new String[3];
@@ -56,27 +58,19 @@ public class ClientConnection {
     }
 
     /**
-     *
-     * @return
+     * Getting method.
+     * @return True if a connection is connected, False otherwise
      */
     public boolean isConnected() {
         return connected;
     }
 
     /**
-     *
+     * Create an error alert box and display it the user, block any action until get acknowledged.
      */
     private void displayCannotFindServer() {
-        String s = String.format("Cannot find port: %d On this IP: %s%n", port, ip);
-        s += "Suggestion: Please try to open Server.jar and establish a connection first";
-        showAlertBox(s);
-    }
-
-    /**
-     *
-     * @param content
-     */
-    private void showAlertBox(String content) {
+        String content = String.format("Cannot find port: %d On this IP: %s%n", port, ip);
+        content += "Suggestion: Please try to open Server.jar and establish a connection first";
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Port not found");
         alert.setHeaderText(null);

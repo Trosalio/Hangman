@@ -162,7 +162,7 @@ public class ServerConnection {
          */
         private void considerRequest(String request) {
             if (request.equals("Request new word")) {
-                logTextArea.appendText("Client has requested a new word");
+                logTextArea.appendText("Client has requested a new word\n");
                 logTextArea.appendText("Generating a word...\n");
                 String word = sendRandomWord();
                 String[] strArr = truncateWord(word);

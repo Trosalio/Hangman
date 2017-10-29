@@ -25,15 +25,15 @@ public class ServerMain extends Application {
     /**
      * This method will call launch(args) which then call start(primaryStage)
      *
-     * @param args
+     * @param args an argument received when calls a program
      */
     public static void main(final String[] args) {
         launch(args);
     }
 
     /**
-     * This method will import .fxml, initialize ServerManager, ServerConnection, SQLiteConnector, and display primary stage
-     *
+     * This method will import .fxml, initialize ServerConnection, ServerController, ServerManager, SQLiteConnector, and display primary stage
+     * Port number is 1337
      * @param primaryStage a main stage/window for this program.
      */
     @Override

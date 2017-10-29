@@ -110,6 +110,7 @@ public class ServerController {
             isEstablished = true;
         } else {
             serverManager.disconnect();
+            logTextArea.appendText("Disconnected a connection.\n");
             establishConnBtn.setText("Establish Connection");
             isEstablished = false;
         }
