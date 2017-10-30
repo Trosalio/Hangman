@@ -79,7 +79,7 @@
          <Line endX="60.0" layoutX="226.0" layoutY="190.0" />
          <Line endX="43.0" layoutX="253.0" layoutY="26.0" rotate="330.0" />
          <HBox fx:id="wordHBox" alignment="CENTER" layoutX="14.0" layoutY="211.0" spacing="10.0" style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-         <Label fx:id="gameOverLebel" layoutX="14.0" layoutY="36.0" text="Game Over!" visible="false">
+         <Label fx:id="gameOverLabel" layoutX="14.0" layoutY="36.0" text="Game Over!" visible="false">
             <font>
                <Font size="40.0" />
             </font>

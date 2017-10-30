@@ -31,7 +31,7 @@ public class ClientController {
     @FXML
     private Line body, leftarm, rightarm, leftleg, rightleg;
     @FXML
-    private Label gameOverLebel, winLabel;
+    private Label gameOverLabel, winLabel;
 
     private ClientManager clientManager;
     private Button[] alphabetButtons;
@@ -86,7 +86,6 @@ public class ClientController {
      * @param button A button that is pressed
      */
     private void onAlphabetButtonPressed(Button button) {
-        System.out.println(button.getText());
         String guessingAlphabet = button.getText();
         button.setDisable(true);
         if (clientManager.guessResult(guessingAlphabet)) {
@@ -102,7 +101,7 @@ public class ClientController {
             }
             if (guessingChance <= 0) {
                 alphabetGrid.setDisable(true);
-                gameOverLebel.setVisible(true);
+                gameOverLabel.setVisible(true);
             }
         }
     }
@@ -164,6 +163,6 @@ public class ClientController {
         hideHangee();
         tryAgainBtn.setDisable(false);
         winLabel.setVisible(false);
-        gameOverLebel.setVisible(false);
+        gameOverLabel.setVisible(false);
     }
 }
